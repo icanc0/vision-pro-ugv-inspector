@@ -11,7 +11,7 @@
 - Kurokesu L086 motorized zoom lens
 - Kurokesu USB camera C3_4K
 
-<sub><sup>man i can buy a whole tesla with this budget 💀</sup></sub>
+<sub><sup><sub><sup><sub>man i can buy a whole tesla with this budget 💀</sup></sub></sup></sub></sup>
 
 ## Architecture
 
@@ -19,7 +19,6 @@
 graph TD
     A[Jackal running Proxmox] --> B[Ubuntu 20.04 VM]
     A --> C[Windows 10 VM]
-    
     
     B --> |Controls| D[LIDAR]
     D --> |Provides Data| B
@@ -45,4 +44,9 @@ graph TD
 **Note: VMs are graphically accelerated through SR-IOV**
 
 ## Getting started
+
+### Vision pro
+Build and run via Xcode
+### Ladybug 5
+Build and run on windows via VS
 
