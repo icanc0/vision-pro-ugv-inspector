@@ -74,7 +74,7 @@ namespace
 {
     std::string getWriteableDirectory()
     {
-        std::string writeableDirectory;
+        std::string writeableDirectory; 
 #ifdef _WIN32
         char buf[_MAX_PATH];
         HRESULT res = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, buf);
