@@ -263,7 +263,8 @@ main( int /*argc*/, char* /*argv[]*/ )
 
     // Process loop
     printf( "Grab loop...\n" );
-    for (int i = 0; i < IMAGES_TO_GRAB; i++)
+    int i = 0;
+    while (true)
     {
         printf( "Processing image %d...\n", i);
 
@@ -290,6 +291,10 @@ main( int /*argc*/, char* /*argv[]*/ )
 
         error = ladybugSaveImage( context, &processedImage, outputPath.c_str(), LADYBUG_FILEFORMAT_JPG );
         _HANDLE_ERROR
+
+        // std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        i++;
+
     }
 
     printf("Done.\n");
