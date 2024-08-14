@@ -9,43 +9,47 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 import UIKit
+import os
 
 struct ImmersiveView: View {
     
-    @StateObject var model = HandTrackingViewModel()
+//    @StateObject var model = HandTrackingViewModel()
+    
+    let logger = Logger(subsystem: "com.vincentxie.camera-controller", category: "ImmersiveView")
+    
+    @State private var skybox: Entity?
     
     var body: some View {
-        RealityView { content in
-            // Add the initial RealityKit content
-//            if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
-//                content.add(scene)
-//            }
-            let skybox = createSkybox()
-            content.add(skybox!)
-            
-//            content.add(model.setupContentEntity())
-        }.task {
-            
-        }.task {
-        
-        }.task {
-            
-        }.gesture(SpatialTapGesture().targetedToAnyEntity().onEnded({value in
-            Task {
+        VStack {
+            RealityView { content in
+                // Add the initial RealityKit content
+    //            if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
+    //                content.add(scene)
+    //            }
+                skybox = createSkybox()
+                content.add(skybox!)
+                logger.log("reality view setup done")
+    //            content.add(model.setupContentEntity())
                 
-            }
-        }))
+            }.gesture(
+                SpatialTapGesture()
+                    .targetedToAnyEntity()
+                    .onEnded({value in
+                        logger.log("inside gesture closure")
+                        logger.log("tapped location \(value.location.debugDescription)")
+                        logger.log("tapped location3d \(value.location3D.description)")
+                    })
+            )
+        }
+        
     }
     private func createSkybox() -> Entity? {
-        let sphere = MeshResource.generateSphere(radius: 100)
+        let sphere = MeshResource.generateSphere(radius: 10)
         var skyboxMaterial = UnlitMaterial()
+                
+//        let texture = getTextureFromRemoteURL(URL(string: "http://192.168.0.135:8080")!)!
         
-        //load image from the web
-//        let imageURL = URL(string: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")!
-//        let imageData = try! Data(contentsOf: imageURL)
-//        let image = UIImage(data: imageData)!
-//        
-        let texture = getTextureFromRemoteURL(URL(string: "https://media.discordapp.net/attachments/1237867213206061177/1242932373390102629/image.png?ex=666a007a&is=6668aefa&hm=21a5204719705fa479ce62206c16719885d30e756870fa3e7a1a3115e1313168&=&format=webp&quality=lossless")!)!
+        let texture = getTextureFromRemoteURL(URL(string: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")!)!
     
         skyboxMaterial.color = .init(texture: .init(texture))
 
@@ -53,6 +57,9 @@ struct ImmersiveView: View {
         skyboxEntity.components.set(ModelComponent(mesh: sphere, materials: [skyboxMaterial]))
         skyboxEntity.scale = .init(x: -1, y: 1, z: 1)
         
+        
+        logger.log("skybox created")
+
         return skyboxEntity
     }
     private func getTextureFromRemoteURL(_ remoteURL: URL) -> TextureResource? {
