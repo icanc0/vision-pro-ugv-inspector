@@ -8,13 +8,12 @@ import requests
 
 bridge = CvBridge()
 
-#!/usr/bin/env python
 def sender():
     rospy.init_node('img_sender', anonymous=True)
     pub = rospy.Publisher('img_topic', ROSImage, queue_size=10)
     rate = rospy.Rate(1)
     while not rospy.is_shutdown():
-        url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAJ8gZmML3-V-ztaF8bYk1fkF16MXiSfHhMQ&s"
+        url = "http://192.168.0.73:8080"
         img = np.asarray(Image.open(requests.get(url, stream=True).raw))
         image_message = bridge.cv2_to_imgmsg(img, encoding="passthrough")
         
