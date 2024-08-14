@@ -48,5 +48,7 @@ graph TD
 ### Vision pro
 Build and run via Xcode
 ### Ladybug 5
+Open `vision-pro-ugv-inspector\windows\ladybug\src`
 Build and run on windows via VS
+
 
